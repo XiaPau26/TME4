@@ -21,16 +21,30 @@ public:
 		qj = new Queue<Job>(taille);
 	}
 
-	void workerThread(){
+	void submit(Job* job){
+		// Peut être bloquant
+		qj.push(job);
+	}
+
+	// Arrêt de tous les threads lancés par la fonction start puis attente de l'arrêt total avec join
+	void stop(){
+		qj.setBlockingPop(false);
+		int taille = vt.size();
+		for(int i = 0; i < taille; i++)
+			vt[i].join();
+	}
+
+	void workerThread(Barrier* b){
 		while(true){
 			Job* j = qj.pop();
-
+			j->run(b);
 		}
 	}
 
-	void start(int NBTHREAD){
+	void start(int NBTHREAD, Barrier* b){
+		// Mettre en boucle sur la queue (donc traitement des jobs dans la queue
 		for(int i = 0; i < NBTHREAD; i++){
-			vt = std::thread()
+			vt = std::thread(workerThread, b);
 		}
 	}
 

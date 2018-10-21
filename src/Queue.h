@@ -73,8 +73,10 @@ public:
 		return true;
 	}
 
-	void setNonBlockable(){
-		isBlockable = false;
+	void setBlockingPop(bool isBlocking){
+		isBlockable = isBlocking;
+		if(!isBlockable)
+			cv.notify_all();
 	}
 
 	virtual ~Queue(){

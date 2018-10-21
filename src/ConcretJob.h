@@ -9,19 +9,26 @@
 #define CONCRETJOB_H_
 
 #include "Job.h"
+#include <iostream>
+#include <thread>
+#include <chrono>
+
+
 
 class ConcretJob:public Job {
 	int* result;
 	int arg;
 public:
-	ConcretJob(){
-		result = nullptr;
+	ConcretJob(int a):result(nullptr), arg(a){}
 
+	void run(Barrier* b){
+		std::cout << "début sur args=" << arg << std::endl;
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		*result = arg%256;
+		std::cout << "fini sur args=" << arg << " res vaut " << *result << std::endl;
+		b->done();
 	}
 
-	void run(){
-
-	}
 	virtual ~ConcretJob();
 };
 
