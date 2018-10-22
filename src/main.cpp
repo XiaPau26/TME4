@@ -1,6 +1,9 @@
 #include "Vec3D.h"
 #include "Rayon.h"
 #include "Scene.h"
+#include "Pool.h"
+#include "ConcretJob.h"
+#include "Barrier.h"
 #include <iostream>
 #include <algorithm>
 #include <fstream>

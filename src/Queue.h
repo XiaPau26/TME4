@@ -37,6 +37,13 @@ public:
 		memset(tab, 0, maxsize*sizeof(T*));
 	}
 
+	Queue(const Queue& q):allocsize(q.allocsize){
+		tab = q.tab;
+		begin = q.begin;
+		sz = q.sz;
+		isBlockable = q.isBlockable;
+	}
+
 	size_t size() const {
 		std::lock_guard<std::mutex> lg(m);
 		return sz;
@@ -63,7 +70,7 @@ public:
 		std::unique_lock<std::mutex> lg(m);
 		while(full()){
 			if(!isBlockable)
-				return nullptr;
+				return false;
 			cv.wait(lg);
 		}
 		if(empty())
