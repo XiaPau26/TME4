@@ -44,7 +44,7 @@ public:
 	void start(int NBTHREAD, Barrier* b){
 		// Mettre en boucle sur la queue (donc traitement des jobs dans la queue
 		for(int i = 0; i < NBTHREAD; i++){
-			vt = std::thread(workerThread, b);
+			vt.push_back(std::thread(workerThread, b));
 		}
 	}
 
