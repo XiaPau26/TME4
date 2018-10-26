@@ -11,7 +11,7 @@
 #include <iostream>
 #include <mutex>
 #include <condition_variable>
-
+#include <cstring>
 
 template <typename T>
 class Queue {

@@ -15,10 +15,13 @@
 
 namespace pr{
 
-	void workerThread(Barrier* b, Queue<Job> qj){
+	void workerThread(Queue<Job>& qj){
 		while(true){
 			Job* j = qj.pop();
-			j->run(b);
+			if(j == nullptr)
+				return;
+			j->run();
+			delete j;
 		}
 	}
 
@@ -42,14 +45,14 @@ namespace pr{
 		}
 
 
-		void start(int NBTHREAD, Barrier* b){
+		void start(int NBTHREAD){
 			// Mettre en boucle sur la queue (donc traitement des jobs dans la queue
 			for(int i = 0; i < NBTHREAD; i++){
-				vt.push_back(std::thread(pr::workerThread, b, qj));
+				vt.push_back(std::thread(pr::workerThread, std::ref(qj)));
 			}
 		}
 
-		virtual ~Pool();
+		virtual ~Pool(){};
 	};
 
 

@@ -9,6 +9,7 @@
 #define BARRIER_H_
 
 #include <mutex>
+#include <condition_variable>
 
 class Barrier {
 	mutable std::mutex m;
@@ -19,19 +20,21 @@ public:
 	Barrier(int nb):cpt(0),n(nb){}
 
 	void done(){
+		std::lock_guard<std::mutex> lg(m);
 		cpt++;
 		if(cpt == n){
 			cv.notify_all();
-			cpt = 0;
 		}
 	}
 
 	void waitFor(){
 		std::unique_lock<std::mutex> ul(m);
-		cv.wait(ul);
+		while(cpt != n){
+			cv.wait(ul);
+		}
 	}
 
-	virtual ~Barrier();
+	virtual ~Barrier(){};
 };
 
 #endif /* BARRIER_H_ */
