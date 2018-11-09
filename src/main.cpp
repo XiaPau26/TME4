@@ -81,7 +81,7 @@ int main() {
 	pr::Pool p(taille);
 	Barrier* b = new Barrier(taille);
 
-	p.start(4);
+	p.start(8);
 	// pour chaque pixel, calculer sa couleur
 	for (int x = 0; x < scene.getWidth(); x++) {
 		for (int y = 0; y < scene.getHeight(); y++) {
@@ -91,7 +91,7 @@ int main() {
 			// le point de l'image (pixel) dont on vient de calculer la couleur
 			Color & pixel = pixels[y * scene.getHeight() + x];
 
-			ConcretJob* j = new ConcretJob(screenPoint, pixel, scene, lights,
+			ConcretJob* j = new ConcretJob(screenPoint, pixel, std::ref(scene), std::ref(lights),
 					b);
 			p.submit(j);
 		}

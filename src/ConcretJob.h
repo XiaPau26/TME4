@@ -25,12 +25,12 @@
 class ConcretJob: public Job {
 	const pr::Vec3D& screenPoint;
 	pr::Color& pixel;
-	pr::Scene scene;
-	std::vector<pr::Vec3D> lights;
+	pr::Scene& scene;
+	std::vector<pr::Vec3D>& lights;
 	Barrier* barrier;
 public:
-	ConcretJob(const pr::Vec3D& screen, pr::Color& res, pr::Scene s,
-			std::vector<pr::Vec3D> l, Barrier* b) :
+	ConcretJob(const pr::Vec3D& screen, pr::Color& res, pr::Scene& s,
+			std::vector<pr::Vec3D>& l, Barrier* b) :
 			screenPoint(screen), pixel(res), scene(s), lights(l), barrier(b) {
 	}
 	void run() {
