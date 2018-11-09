@@ -98,6 +98,7 @@ int main() {
 	}
 
 	b->waitFor();
+	p.endOfproject(8);
 	std::chrono::steady_clock::time_point end =
 			std::chrono::steady_clock::now();
 	std::cout << "Total time "

@@ -87,6 +87,10 @@ public:
 			cv.notify_all();
 	}
 
+	bool getBlocking(){
+		return isBlockable;
+	}
+
 	virtual ~Queue(){
 		for(size_t i = 0; i < sz; i++){
 			auto ind = (begin+i) % allocsize;

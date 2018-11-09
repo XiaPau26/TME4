@@ -16,7 +16,7 @@
 namespace pr{
 
 	void workerThread(Queue<Job>& qj){
-		while(true){
+		while(qj.getBlocking()){
 			Job* j = qj.pop();
 			if(j == nullptr)
 				return;
@@ -50,6 +50,14 @@ namespace pr{
 			for(int i = 0; i < NBTHREAD; i++){
 				vt.push_back(std::thread(pr::workerThread, std::ref(qj)));
 			}
+
+		}
+
+		void endOfproject(int NBTHREAD){
+			std::cout << "Dans le endOfProject" << std::endl;
+			qj.setBlockingPop(false);
+			for(int i = 0; i < NBTHREAD; ++i)
+				vt[i].join();
 		}
 
 		virtual ~Pool(){};
